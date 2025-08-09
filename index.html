@@ -1,8 +1,45 @@
-<html> 
+<!DOCTYPE html>
+<html>
 <head>
-  <title>Master of orion 2</title>
+
+    <meta charset="UTF-8" />
+    <title>master of orion 2 web port</title>
+    <style>
+        button {
+            background-color: #376825;
+            color: #28471f;
+            border: 0px solid;
+            position: relative;
+            left: 2365px;
+            top: 550px;
+            font-size: larger;
+            transition-duration: 0.4s;
+            
+        }
+        button:hover {
+            background-color: #28471f;
+            color: #17360e;
+        }
+        .menu {
+             display: flex;
+            flex-direction: column; /* makes them stack */
+            gap: 20px; /* space between buttons */
+            margin-left: 40px; /* push off the left edge */
+            position: absolute;
+        }
+    </style>
+
 </head>
 <body>
-  
+
+  <div class="menu">
+
+    <button>continue</button>
+    <button>load game</button>
+    <button>new game</button>
+    <button>credits</button>
+
+  </div>
+    
 </body>
 </html>
