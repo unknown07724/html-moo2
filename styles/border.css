@@ -1,0 +1,10 @@
+ html, body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      border: 15px solid grey; /* or whatever color you want */
+      box-sizing: border-box; /* makes the border part of the body’s size */
+      background-color: black;
+      border-radius: 20px;
+    }
