@@ -1,2 +1,2 @@
 **MoO II** is one of my favorite games, so I've decided to start working on a web version for all of you to play
-thank you simtex for making this masterpiece of a game
+thank you **simtex** for making this masterpiece of a game
