@@ -1,2 +1,2 @@
-# html-moo2
-master of orion 2 in the browser
+# Master of orion 2: battle at antares web port
+this project is for the 30th anniversary of master of orion 2
