@@ -1,35 +1,35 @@
 {
-  "Humans": {
-    "General": {
-      "Portrait": "/assets/portraits/humans.png"
-    },
-    "Names": {
-      "Star": "Sol",
-      "Leaders": [
-        "Alexander"
-      ],
-      "Frigate": "",
-      "Destroyer": "",
-      "Cruiser": "",
-      "Battleship": "",
-      "Titan": "",
-      "Doom_star": ""
-    },
-    "Traits": {
-      "Ideology": "Democracy",
-      "Bonuses": {
-        "Research": 0,
-        "Industry": 0,
-        "Food": 0,
-        "Growth": "%100"
-      },
-      "Special": [
-        "Charismatic"
-      ]
-    },
-    "Personality": {
-      "Aggressiveness": 0,
-      "Expansionist": 0
-    }
-  }
+	"Humans": {
+		"General": {
+			"Portrait": "/assets/portraits/humans.png"
+		},
+		"Names": {
+			"Star": "Sol",
+			"Leaders": [
+				"Alexander"
+			],
+			"Frigate": "",
+			"Destroyer": "",
+			"Cruiser": "",
+			"Battleship": "",
+			"Titan": "",
+			"Doom_star": ""
+		},
+		"Traits": {
+			"Ideology": "Democracy",
+			"Bonuses": {
+				"Research": 0,
+				"Industry": 0,
+				"Food": 0,
+				"Growth": "%100"
+			},
+			"Special": [
+				"Charismatic"
+			]
+		},
+		"Personality": {
+			"Aggressiveness": 0,
+			"Expansionist": 0
+		}
+	}
 }
