@@ -1,35 +1,49 @@
 {
-	"Humans": {
-		"General": {
-			"Portrait": "/html-moo2/assets/portraits/humans.png"
-		},
-		"Names": {
-			"Star": "Sol",
-			"Leaders": [
-				"Alexander"
-			],
-			"Frigate": "",
-			"Destroyer": "",
-			"Cruiser": "",
-			"Battleship": "",
-			"Titan": "",
-			"Doom_star": ""
-		},
-		"Traits": {
-			"Ideology": "Democracy",
-			"Bonuses": {
-				"Research": 0,
-				"Industry": 0,
-				"Food": 0,
-				"Growth": "100%"
-			},
-			"Special": [
-				"Charismatic"
-			]
-		},
-		"Personality": {
-			"Aggressiveness": 0,
-			"Expansionist": 0
-		}
-	}
+  "Humans": {
+    "Images": {
+      "Portrait": "/assets/portraits/humans.png",
+      "Colony": {
+        "Worker": "/assets/units/workers/human.png",
+        "Researcher": "/assets/units/researcher/human.png",
+        "Farmer": "/assets/units/farmer/human.png"
+      },
+      "Military": {
+        "Millita": "/assets/units/Millita/human.png",
+        "Marine": "/assets/units/Marine/human.png",
+        "Power": "/assets/units/Power_armor/human.png"
+      }
+    },
+    "Special": {
+      "Spy": "/assets/units/spy/human.png",
+      "Captive": "/assets/units/captive/human.png"
+    },
+    "Names": {
+      "Star": "Sol",
+      "Leaders": [
+        "Alexander"
+      ],
+      "Frigate": "",
+      "Destroyer": "",
+      "Cruiser": "",
+      "Battleship": "",
+      "Titan": "",
+      "Doom_star": ""
+    },
+    "Traits": {
+      "Ideology": "Democracy",
+      "Bonuses": {
+        "Research": 0,
+        "Industry": 0,
+        "Food": 0,
+        "Growth": "%100"
+      },
+      "Special": [
+        "Charismatic"
+      ]
+    },
+    "Personality": {
+      "Aggressiveness": 0,
+      "Expansionist": 0
+    }
+  }
 }
