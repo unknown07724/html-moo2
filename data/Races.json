@@ -9,7 +9,7 @@
       },
       "Diplomacy": {
         "Animation": "/assets/units/workers/human.png",
-        "Theme": "/assets/music/human.mp3",
+        "Theme": "/assets/music/human.mp3"
       },
       "Research": {
         "Default": "/assets/units/research/human/research.gif",
@@ -17,7 +17,7 @@
         "Spy": "/assets/units/research/human/spy.gif"
       },
       "Military": {
-        "Milita": "/assets/units/Millita/human.png",
+        "Milita": "/assets/units/Milita/human.png",
         "Marine": "/assets/units/Marine/human.png",
         "Power": "/assets/units/Power_armor/human.png"
       }
