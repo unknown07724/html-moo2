@@ -1,59 +1,59 @@
 {
-  "Humans": {
-    "Images": {
-      "Portrait": "/assets/portraits/humans.png",
-      "Colony": {
-        "Worker": "/assets/units/workers/human.png",
-        "Researcher": "/assets/units/researcher/human.png",
-        "Farmer": "/assets/units/farmer/human.png"
-      },
-      "Diplomacy": {
-        "Animation": "/assets/units/workers/human.png",
-        "Theme": "/assets/music/human.mp3"
-      },
-      "Research": {
-        "Default": "/assets/units/research/human/research.gif",
-        "Military": "/assets/units/research/human/military.gif",
-        "Spy": "/assets/units/research/human/spy.gif"
-      },
-      "Military": {
-        "Milita": "/assets/units/milita/human.png",
-        "Marine": "/assets/units/marine/human.png",
-        "Power": "/assets/units/power/human.png"
-      }
-    },
-    "Special": {
-      "Spy": "/assets/units/spy/human.png",
-      "Captive": "/assets/units/captive/human.png"
-    },
-    "Names": {
-      "Star": "Sol",
-      "Leaders": [
-        "Alexander"
-      ],
-      "Frigate": "",
-      "Destroyer": "",
-      "Cruiser": "",
-      "Battleship": "",
-      "Titan": "",
-      "Doom_star": ""
-    },
-    "Traits": {
-      "Ideology": "Democracy",
-      "Bonuses": {
-        "Research": 0,
-        "Industry": 0,
-        "Food": 0,
-        "Growth": 0
-        "Taxation": 0
-      },
-      "Special": [
-        "Charismatic"
-      ]
-    },
-    "Personality": {
-      "Aggressiveness": 0,
-      "Expansionist": 0
+    "Humans": {
+        "Images": {
+            "Portrait": "/assets/portraits/humans.png",
+            "Colony": {
+                "Worker": "/assets/units/workers/human.png",
+                "Researcher": "/assets/units/researcher/human.png",
+                "Farmer": "/assets/units/farmer/human.png"
+            },
+            "Diplomacy": {
+                "Animation": "/assets/units/workers/human.png",
+                "Theme": "/assets/music/human.mp3"
+            },
+            "Research": {
+                "Default": "/assets/units/research/human/research.gif",
+                "Military": "/assets/units/research/human/military.gif",
+                "Spy": "/assets/units/research/human/spy.gif"
+            },
+            "Military": {
+                "Milita": "/assets/units/milita/human.png",
+                "Marine": "/assets/units/marine/human.png",
+                "Power": "/assets/units/power/human.png"
+            }
+        },
+        "Special": {
+            "Spy": "/assets/units/spy/human.png",
+            "Captive": "/assets/units/captive/human.png"
+        },
+        "Names": {
+            "Star": "Sol",
+            "Leaders": [
+                "Alexander"
+            ],
+            "Frigate": "",
+            "Destroyer": "",
+            "Cruiser": "",
+            "Battleship": "",
+            "Titan": "",
+            "Doom_star": ""
+        },
+        "Traits": {
+            "Ideology": "Democracy",
+            "Bonuses": {
+                "Research": 0,
+                "Industry": 0,
+                "Food": 0,
+                "Growth": 0,
+                "Taxation": 0
+            },
+            "Special": [
+                "Charismatic"
+            ]
+        },
+        "Personality": {
+            "Aggressiveness": 0,
+            "Expansionist": 0
+        }
     }
-  }
 }
