@@ -17,9 +17,9 @@
         "Spy": "/assets/units/research/human/spy.gif"
       },
       "Military": {
-        "Milita": "/assets/units/Milita/human.png",
-        "Marine": "/assets/units/Marine/human.png",
-        "Power": "/assets/units/Power_armor/human.png"
+        "Milita": "/assets/units/milita/human.png",
+        "Marine": "/assets/units/marine/human.png",
+        "Power": "/assets/units/power/human.png"
       }
     },
     "Special": {
@@ -44,7 +44,8 @@
         "Research": 0,
         "Industry": 0,
         "Food": 0,
-        "Growth": "100%"
+        "Growth": 0
+        "Taxation": 0
       },
       "Special": [
         "Charismatic"
