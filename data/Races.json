@@ -8,7 +8,7 @@
                 "Farmer": "/assets/units/farmer/human.png"
             },
             "Diplomacy": {
-                "Animation": "/assets/units/workers/human.png",
+                "Animation": "/assets/units/diplomacy/human.gif",
                 "Theme": "/assets/music/human.mp3"
             },
             "Research": {
