@@ -7,8 +7,17 @@
         "Researcher": "/assets/units/researcher/human.png",
         "Farmer": "/assets/units/farmer/human.png"
       },
+      "Diplomacy": {
+        "Animation": "/assets/units/workers/human.png",
+        "Theme": "/assets/music/human.mp3",
+      },
+      "Research": {
+        "Default": "/assets/units/research/human/research.gif",
+        "Military": "/assets/units/research/human/military.gif",
+        "Spy": "/assets/units/research/human/spy.gif"
+      },
       "Military": {
-        "Millita": "/assets/units/Millita/human.png",
+        "Milita": "/assets/units/Millita/human.png",
         "Marine": "/assets/units/Marine/human.png",
         "Power": "/assets/units/Power_armor/human.png"
       }
