@@ -29,14 +29,16 @@
         "Names": {
             "Star": "Sol",
             "Leaders": [
-                "Alexander"
+                "Alexander",
+                "Lasitus",
+                "Durash IV"
             ],
-            "Frigate": "",
-            "Destroyer": "",
-            "Cruiser": "",
-            "Battleship": "",
-            "Titan": "",
-            "Doom_star": ""
+            "Frigate": "Gripen",
+            "Destroyer": "Rafale",
+            "Cruiser": "Interceptor",
+            "Battleship": "Knight",
+            "Titan": "Nemesis",
+            "Doom_star": "Invincible"
         },
         "Traits": {
             "Ideology": "Democracy",
