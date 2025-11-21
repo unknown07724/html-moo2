@@ -1,30 +1,30 @@
 {
     "Humans": {
         "Images": {
-            "Portrait": "/assets/portraits/humans.png",
+            "Portrait": "/html-moo2/assets/portraits/humans.png",
             "Colony": {
-                "Worker": "/assets/units/workers/human.png",
-                "Researcher": "/assets/units/researcher/human.png",
-                "Farmer": "/assets/units/farmer/human.png"
+                "Worker": "/html-moo2/assets/units/workers/human.png",
+                "Researcher": "/html-moo2/assets/units/researcher/human.png",
+                "Farmer": "/html-moo2/assets/units/farmer/human.png"
             },
             "Diplomacy": {
-                "Animation": "/assets/units/diplomacy/human.gif",
-                "Theme": "/assets/music/human.mp3"
+                "Animation": "/html-moo2/assets/units/diplomacy/human.gif",
+                "Theme": "/html-moo2/assets/music/human.mp3"
             },
             "Research": {
-                "Default": "/assets/units/research/human/research.gif",
-                "Military": "/assets/units/research/human/military.gif",
-                "Spy": "/assets/units/research/human/spy.gif"
+                "Default": "/html-moo2/assets/units/research/human/research.gif",
+                "Military": "/html-moo2/assets/units/research/human/military.gif",
+                "Spy": "/html-moo2/assets/units/research/human/spy.gif"
             },
             "Military": {
-                "Milita": "/assets/units/milita/human.png",
-                "Marine": "/assets/units/marine/human.png",
-                "Power": "/assets/units/power/human.png"
+                "Milita": "/html-moo2/assets/units/milita/human.png",
+                "Marine": "/html-moo2/assets/units/marine/human.png",
+                "Power": "/html-moo2/assets/units/power/human.png"
             }
         },
         "Special": {
-            "Spy": "/assets/units/spy/human.png",
-            "Captive": "/assets/units/captive/human.png"
+            "Spy": "/html-moo2/assets/units/spy/human.png",
+            "Captive": "/html-moo2/assets/units/captive/human.png"
         },
         "Names": {
             "Star": "Sol",
