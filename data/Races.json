@@ -47,7 +47,10 @@
                 "Industry": 0,
                 "Food": 0,
                 "Growth": 0,
-                "Taxation": 0
+                "Taxation": 0,
+                "S_defense": 0
+                "G_combat": 0
+                "S_attack": 0
             },
             "Special": [
                 "Charismatic"
