@@ -63,7 +63,7 @@
     },
      "Psilon": {
         "Images": {
-            "Portrait": "/html-moo2/assets/portraits/humans.png",
+            "Portrait": "/html-moo2/assets/portraits/psilon.png",
             "Colony": {
                 "Worker": "/html-moo2/assets/units/workers/psilon.png",
                 "Researcher": "/html-moo2/assets/units/researcher/psilon.png",
