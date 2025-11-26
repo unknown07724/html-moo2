@@ -48,12 +48,72 @@
                 "Food": 0,
                 "Growth": 0,
                 "Taxation": 0,
-                "S_defense": 0
-                "G_combat": 0
+                "S_defense": 0,
+                "G_combat": 0,
                 "S_attack": 0
             },
             "Special": [
                 "Charismatic"
+            ]
+        },
+        "Personality": {
+            "Aggressiveness": 0,
+            "Expansionist": 0
+        }
+    },
+     "Psilon": {
+        "Images": {
+            "Portrait": "/html-moo2/assets/portraits/humans.png",
+            "Colony": {
+                "Worker": "/html-moo2/assets/units/workers/psilon.png",
+                "Researcher": "/html-moo2/assets/units/researcher/psilon.png",
+                "Farmer": "/html-moo2/assets/units/farmer/psilon.png"
+            },
+            "Diplomacy": {
+                "Animation": "/html-moo2/assets/units/diplomacy/psilon.gif",
+                "Theme": "/html-moo2/assets/music/psilon.mp3"
+            },
+            "Research": {
+                "Default": "/html-moo2/assets/units/research/psilon/research.gif",
+                "Military": "/html-moo2/assets/units/research/psilon/military.gif",
+                "Spy": "/html-moo2/assets/units/research/psilon/spy.gif"
+            },
+            "Military": {
+                "Milita": "/html-moo2/assets/units/milita/psilon.png",
+                "Marine": "/html-moo2/assets/units/marine/psilon.png",
+                "Power": "/html-moo2/assets/units/power/psilon.png"
+            }
+        },
+        "Special": {
+            "Spy": "/html-moo2/assets/units/spy/psilon.png",
+            "Captive": "/html-moo2/assets/units/captive/psilon.png"
+        },
+        "Names": {
+            "Star": "Mentar",
+            "Leaders": [
+                "Quark"
+            ],
+            "Frigate": "",
+            "Destroyer": "",
+            "Cruiser": "",
+            "Battleship": "",
+            "Titan": "",
+            "Doom_star": ""
+        },
+        "Traits": {
+            "Ideology": "Dictatorship",
+            "Bonuses": {
+                "Research": 2,
+                "Industry": 0,
+                "Food": 0,
+                "Growth": 0,
+                "Taxation": 0,
+                "S_defense": 0,
+                "G_combat": 0,
+                "S_attack": 0
+            },
+            "Special": [
+                "Creative"
             ]
         },
         "Personality": {
