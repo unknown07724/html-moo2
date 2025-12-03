@@ -7,4 +7,4 @@ so, usually, modding isn't easy as there is no built in API until mod loaders co
 there will be no need for mod loaders, we store all the stuff in JSON. Buildings, races, leaders, technology, etc
 
 # Resources
-[building your first mod](modding/building.md)
+[building your first mod](building.md)
