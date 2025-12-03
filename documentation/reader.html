@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Markdown Reader</title>
+
+  <!-- markdown-it parser -->
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it@13/dist/markdown-it.min.js"></script>
+
+  <!-- DOMPurify for not getting XSS'd into the shadow realm -->
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: 2rem;
+      line-height: 1.6;
+    }
+    a { color: #4a74ff; }
+  </style>
+</head>
+<body>
+  <div id="content">loading…</div>
+
+  <script>
+    const md = window.markdownit({
+      html: true,
+      linkify: true,
+      typographer: true
+    });
+
+    // load & render a markdown file
+    function loadMD(path) {
+      fetch(path)
+        .then(r => r.text())
+        .then(text => {
+          const raw = md.render(text);
+          const safe = DOMPurify.sanitize(raw);
+          document.getElementById("content").innerHTML = safe;
+          hookLinks(); // re-activate internal navigation
+        })
+        .catch(err => {
+          document.getElementById("content").innerHTML =
+            `<p>format error, where the fuck is the file?</p>`;
+        });
+    }
+
+    // make markdown links load .md files instead of navigating normally
+    function hookLinks() {
+      document.querySelectorAll("#content a").forEach(a => {
+        a.addEventListener("click", e => {
+          const href = a.getAttribute("href");
+          if (href && href.endsWith(".md")) {
+            e.preventDefault();
+            loadMD(href);
+          }
+        });
+      });
+    }
+
+    // load starting markdown file
+    loadMD("introduction.md");
+  </script>
+</body>
+</html>
