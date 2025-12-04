@@ -1,7 +1,3 @@
-Gotcha, I’ll keep everything exactly the same and just fix the codeblocks so they copy properly:
-
----
-
 # Building Your First Mod
 
 it's pretty easy to use JSON/JSON5 so we're going to give you a bit of a crash course into it.
