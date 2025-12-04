@@ -24,7 +24,7 @@
   <div id="content">loading…</div>
 
   <script>
-    const md = window.markdownit({
+const md = window.markdownit({
   html: true,
   linkify: true,
   typographer: true,
@@ -34,42 +34,62 @@
         return hljs.highlight(str, { language: lang }).value;
       } catch (__) {}
     }
-    return ''; // fallback: no highlighting
+    return md.utils.escapeHtml(str);
   }
 });
 
+// GLOBAL: track current directory
+let currentDir = "";
 
-    // load & render a markdown file
-    function loadMD(path) {
-      fetch(path)
-        .then(r => r.text())
-        .then(text => {
-          const raw = md.render(text);
-          const safe = DOMPurify.sanitize(raw);
-          document.getElementById("content").innerHTML = safe;
-          hookLinks(); // re-activate internal navigation
-        })
-        .catch(err => {
-          document.getElementById("content").innerHTML =
-            `<p>format error, where the fuck is the file?</p>`;
-        });
-    }
+// get directory part of a path
+function getDir(path) {
+  if (!path.includes("/")) return "";
+  return path.substring(0, path.lastIndexOf("/") + 1);
+}
 
-    // make markdown links load .md files instead of navigating normally
-    function hookLinks() {
-      document.querySelectorAll("#content a").forEach(a => {
-        a.addEventListener("click", e => {
-          const href = a.getAttribute("href");
-          if (href && href.endsWith(".md")) {
-            e.preventDefault();
-            loadMD(href);
-          }
-        });
-      });
-    }
+// resolve relative links like ../stuff.md or foo.md
+function resolvePath(baseDir, link) {
+  const url = new URL(link, "http://dummy/" + baseDir); 
+  return url.pathname.slice(1);
+}
 
-    // load starting markdown file
-    loadMD("Introduction.md");
+// load & render markdown file
+function loadMD(path) {
+  fetch(path)
+    .then(r => r.text())
+    .then(text => {
+      currentDir = getDir(path);
+
+      const raw = md.render(text);
+      const safe = DOMPurify.sanitize(raw);
+      document.getElementById("content").innerHTML = safe;
+      hookLinks();
+    })
+    .catch(err => {
+      document.getElementById("content").innerHTML =
+        `<p>bro wtf, file missing</p>`;
+    });
+}
+
+// activate .md links inside the rendered content
+function hookLinks() {
+  document.querySelectorAll("#content a").forEach(a => {
+    a.addEventListener("click", e => {
+      const href = a.getAttribute("href");
+
+      if (href && href.endsWith(".md")) {
+        e.preventDefault();
+
+        const resolved = resolvePath(currentDir, href);
+        loadMD(resolved);
+      }
+    });
+  });
+}
+
+// start file
+loadMD("Introduction.md");
+
   </script>
 </body>
 </html>
