@@ -27,51 +27,42 @@
   <div id="content">loading…</div>
 
 <script>
-/* ---------------------------------------
-   markdown-it / highlight setup
----------------------------------------- */
+/* -----------------------------
+   markdown-it + highlight.js
+------------------------------ */
 const md = window.markdownit({
   html: true,
   linkify: true,
   typographer: true,
   highlight: function(str, lang) {
-  if (lang && hljs.getLanguage(lang)) {
-    try {
-      // wrap with <pre><code class="hljs language-xxx">
-      return `<pre class="hljs"><code>${hljs.highlight(str, { language: lang }).value}</code></pre>`;
-    } catch (__) {}
-  }
-  // fallback for plain code
-  return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`;
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(str, { language: lang }).value; // only inner HTML
+      } catch (__) {}
+    }
+    return md.utils.escapeHtml(str);
   }
 });
 
-/* ---------------------------------------
-   directory tracking
----------------------------------------- */
-
+/* -----------------------------
+   folder tracking
+------------------------------ */
 let currentDir = "";
 
-// return "docs/intro/" from "docs/intro/file.md"
 function getDir(path) {
   if (!path.includes("/")) return "";
   return path.substring(0, path.lastIndexOf("/") + 1);
 }
 
-// resolve relative paths properly
 function resolvePath(baseDir, link) {
-  // absolute-style "/foo.md" → make it project-relative instead of domain-root
-  if (link.startsWith("/")) return link.slice(1);
-
-  // let URL do the heavy lifting (../, ./, etc)
-  const url = new URL(link, "http://dummy/" + baseDir);
+  if (link.startsWith("/")) return link.slice(1); // absolute-like
+  const url = new URL(link, "http://dummy/" + baseDir); // resolve ../, ./ etc
   return url.pathname.slice(1);
 }
 
-/* ---------------------------------------
-   main loader
----------------------------------------- */
-
+/* -----------------------------
+   load & render markdown
+------------------------------ */
 function loadMD(path) {
   fetch(path)
     .then(r => r.text())
@@ -80,40 +71,39 @@ function loadMD(path) {
 
       const raw = md.render(text);
       const safe = DOMPurify.sanitize(raw);
-
       document.getElementById("content").innerHTML = safe;
-      hookLinks();
+
+      // add hljs class for GitHub theme
+      document.querySelectorAll("#content pre").forEach(pre => pre.classList.add("hljs"));
+      document.querySelectorAll("#content pre code").forEach(code => code.classList.add("hljs"));
+
+      hookLinks(); // activate internal .md links
     })
     .catch(err => {
-      document.getElementById("content").innerHTML =
-        `<p>bro wtf, file missing</p>`;
+      document.getElementById("content").innerHTML = `<p>bro wtf, file missing</p>`;
     });
 }
 
-/* ---------------------------------------
+/* -----------------------------
    link handler
----------------------------------------- */
-
+------------------------------ */
 function hookLinks() {
   document.querySelectorAll("#content a").forEach(a => {
     a.addEventListener("click", e => {
       const href = a.getAttribute("href");
-
       if (href && href.endsWith(".md")) {
         e.preventDefault();
-
         const resolved = resolvePath(currentDir, href);
         loadMD(resolved);
       }
-    }, { once: true }); // no more 50 damn listeners on the same links
+    }, { once: true }); // prevent duplicate listeners
   });
 }
 
-/* ---------------------------------------
-   start file
----------------------------------------- */
+/* -----------------------------
+   start
+------------------------------ */
 loadMD("Introduction.md");
-
 </script>
 
 </body>
