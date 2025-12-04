@@ -12,7 +12,6 @@
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/languages/css.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/languages/html.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github.min.css">
-
   <style>
     body {
       font-family: system-ui, sans-serif;
@@ -20,6 +19,18 @@
       margin: 2rem;
       line-height: 1.6;
     }
+    code {
+    font-family: Monaco, monospace;
+    font-size: $base-font-size;
+    line-height: 100%;
+    background-color: #eee;
+    padding: 0.2em;
+    letter-spacing: -0.05em;
+    word-break: normal;
+    /border-radius: 5px;/
+  }
+
+
     a { color: #4a74ff; }
   </style>
 </head>
@@ -75,7 +86,7 @@ function loadMD(path) {
 
       // add hljs class for GitHub theme
       document.querySelectorAll("#content pre").forEach(pre => pre.classList.add("hljs"));
-      document.querySelectorAll("#content pre code").forEach(code => code.classList.add("hljs"));
+      document.querySelectorAll("#content pre code").forEach(code => code.classList.add("codeblock"));
 
       hookLinks(); // activate internal .md links
     })
