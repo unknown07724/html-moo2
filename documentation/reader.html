@@ -35,27 +35,35 @@ const md = window.markdownit({
   linkify: true,
   typographer: true,
   highlight: function(str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(str, { language: lang }).value;
-      } catch (__) {}
-    }
-    return md.utils.escapeHtml(str);
+  if (lang && hljs.getLanguage(lang)) {
+    try {
+      // wrap with <pre><code class="hljs language-xxx">
+      return `<pre class="hljs"><code>${hljs.highlight(str, { language: lang }).value}</code></pre>`;
+    } catch (__) {}
   }
-}); // <-- this closing bracket was missing
+  // fallback for plain code
+  return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`;
+  }
+});
 
 /* ---------------------------------------
    directory tracking
 ---------------------------------------- */
+
 let currentDir = "";
 
+// return "docs/intro/" from "docs/intro/file.md"
 function getDir(path) {
   if (!path.includes("/")) return "";
   return path.substring(0, path.lastIndexOf("/") + 1);
 }
 
+// resolve relative paths properly
 function resolvePath(baseDir, link) {
+  // absolute-style "/foo.md" → make it project-relative instead of domain-root
   if (link.startsWith("/")) return link.slice(1);
+
+  // let URL do the heavy lifting (../, ./, etc)
   const url = new URL(link, "http://dummy/" + baseDir);
   return url.pathname.slice(1);
 }
@@ -63,6 +71,7 @@ function resolvePath(baseDir, link) {
 /* ---------------------------------------
    main loader
 ---------------------------------------- */
+
 function loadMD(path) {
   fetch(path)
     .then(r => r.text())
@@ -73,12 +82,6 @@ function loadMD(path) {
       const safe = DOMPurify.sanitize(raw);
 
       document.getElementById("content").innerHTML = safe;
-
-      // add hljs class to all code blocks
-      document.querySelectorAll("#content pre code").forEach(el => {
-        el.classList.add("hljs");
-      });
-
       hookLinks();
     })
     .catch(err => {
@@ -90,16 +93,19 @@ function loadMD(path) {
 /* ---------------------------------------
    link handler
 ---------------------------------------- */
+
 function hookLinks() {
   document.querySelectorAll("#content a").forEach(a => {
     a.addEventListener("click", e => {
       const href = a.getAttribute("href");
+
       if (href && href.endsWith(".md")) {
         e.preventDefault();
+
         const resolved = resolvePath(currentDir, href);
         loadMD(resolved);
       }
-    }, { once: true });
+    }, { once: true }); // no more 50 damn listeners on the same links
   });
 }
 
@@ -107,6 +113,7 @@ function hookLinks() {
    start file
 ---------------------------------------- */
 loadMD("Introduction.md");
+
 </script>
 
 </body>
