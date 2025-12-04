@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <title>Documentation</title>
 
-  <!-- init bs-->
+  <!-- libs -->
   <script src="https://cdn.jsdelivr.net/npm/markdown-it@13/dist/markdown-it.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/highlight.min.js"></script>
@@ -26,7 +26,10 @@
 <body>
   <div id="content">loading…</div>
 
-  <script>
+<script>
+/* ---------------------------------------
+   markdown-it / highlight setup
+---------------------------------------- */
 const md = window.markdownit({
   html: true,
   linkify: true,
@@ -41,22 +44,32 @@ const md = window.markdownit({
   }
 });
 
-// GLOBAL: track current directory
+/* ---------------------------------------
+   directory tracking
+---------------------------------------- */
+
 let currentDir = "";
 
-// get directory part of a path
+// return "docs/intro/" from "docs/intro/file.md"
 function getDir(path) {
   if (!path.includes("/")) return "";
   return path.substring(0, path.lastIndexOf("/") + 1);
 }
 
-// resolve relative links like ../stuff.md or foo.md
+// resolve relative paths properly
 function resolvePath(baseDir, link) {
-  const url = new URL(link, "http://dummy/" + baseDir); 
+  // absolute-style "/foo.md" → make it project-relative instead of domain-root
+  if (link.startsWith("/")) return link.slice(1);
+
+  // let URL do the heavy lifting (../, ./, etc)
+  const url = new URL(link, "http://dummy/" + baseDir);
   return url.pathname.slice(1);
 }
 
-// load & render markdown file
+/* ---------------------------------------
+   main loader
+---------------------------------------- */
+
 function loadMD(path) {
   fetch(path)
     .then(r => r.text())
@@ -65,6 +78,7 @@ function loadMD(path) {
 
       const raw = md.render(text);
       const safe = DOMPurify.sanitize(raw);
+
       document.getElementById("content").innerHTML = safe;
       hookLinks();
     })
@@ -74,7 +88,10 @@ function loadMD(path) {
     });
 }
 
-// activate .md links inside the rendered content
+/* ---------------------------------------
+   link handler
+---------------------------------------- */
+
 function hookLinks() {
   document.querySelectorAll("#content a").forEach(a => {
     a.addEventListener("click", e => {
@@ -86,13 +103,16 @@ function hookLinks() {
         const resolved = resolvePath(currentDir, href);
         loadMD(resolved);
       }
-    });
+    }, { once: true }); // no more 50 damn listeners on the same links
   });
 }
 
-// start file
+/* ---------------------------------------
+   start file
+---------------------------------------- */
 loadMD("Introduction.md");
 
-  </script>
+</script>
+
 </body>
 </html>
