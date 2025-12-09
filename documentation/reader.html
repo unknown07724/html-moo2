@@ -29,30 +29,21 @@
   <div id="content">loading…</div>
 
 <script>
-/* ---------------------------------------
-   markdown-it / highlight setup
----------------------------------------- */
 const md = window.markdownit({
   html: true,
   linkify: true,
   typographer: true,
   highlight: function(str, lang) {
     if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(str, { language: lang }).value;
-      } catch (__) {}
+      try { return hljs.highlight(str, { language: lang }).value; } catch (_) {}
     }
     return md.utils.escapeHtml(str);
   }
 });
 
-/* ---------------------------------------
-   directory tracking
----------------------------------------- */
-
 let currentDir = "";
 
-// return "docs/intro/" from "docs/intro/file.md"
+// Get the directory of a path (always ends with a slash)
 function getDir(path) {
   if (!path.includes("/")) return "";
   let dir = path.substring(0, path.lastIndexOf("/") + 1);
@@ -60,60 +51,47 @@ function getDir(path) {
   return dir;
 }
 
-// get project base path dynamically (handles subpaths)
-const projectBase = location.pathname.replace(/[^\/]*$/, ""); // removes current file name
-
-// resolve relative paths properly, handles project subpath
+// Resolve relative links without prepending projectBase
 function resolvePath(baseDir, link) {
-  // absolute-style "/foo.md" → prepend projectBase
-  if (link.startsWith("/")) return projectBase + link.slice(1);
+  if (link.startsWith("/")) return link.slice(1); // absolute links in project
 
-  // relative paths ./file.md or ../file.md
-  const url = new URL(link, "http://dummy/" + baseDir);
-  const resolved = url.pathname.slice(1); // strip dummy domain
-  return projectBase + resolved;
+  const parts = baseDir.split("/").filter(Boolean);
+  const linkParts = link.split("/");
+
+  for (const part of linkParts) {
+    if (part === ".") continue;
+    else if (part === "..") parts.pop();
+    else parts.push(part);
+  }
+
+  return parts.join("/");
 }
-
-/* ---------------------------------------
-   main loader
----------------------------------------- */
 
 function loadMD(path) {
   console.log("Attempting to load:", path);
   fetch(path)
-    .then(r => {
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      return r.text();
-    })
+    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
     .then(text => {
       currentDir = getDir(path);
       console.log("Loaded:", path, "| currentDir:", currentDir);
 
       const raw = md.render(text);
       const safe = DOMPurify.sanitize(raw);
-
       document.getElementById("content").innerHTML = safe;
       hookLinks();
     })
     .catch(err => {
       console.error("Failed to load:", path, err);
-      document.getElementById("content").innerHTML =
-        `<p>bro wtf, file missing</p>`;
+      document.getElementById("content").innerHTML = `<p>bro wtf, file missing</p>`;
     });
 }
-
-/* ---------------------------------------
-   link handler
----------------------------------------- */
 
 function hookLinks() {
   document.querySelectorAll("#content a").forEach(a => {
     a.addEventListener("click", e => {
       const href = a.getAttribute("href");
-
       if (href && href.endsWith(".md")) {
         e.preventDefault();
-
         const resolved = resolvePath(currentDir, href);
         console.log("Resolved link:", href, "→", resolved);
         loadMD(resolved);
@@ -122,13 +100,9 @@ function hookLinks() {
   });
 }
 
-/* ---------------------------------------
-   start file
----------------------------------------- */
+// Start file, relative to current folder
 loadMD("Introduction.md");
 
 </script>
-
 </body>
 </html>
-
