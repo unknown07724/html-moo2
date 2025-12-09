@@ -7,8 +7,8 @@
   <!-- libs -->
   <script src="https://cdn.jsdelivr.net/npm/markdown-it@13/dist/markdown-it.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
-  <!-- highlight.js global build with common languages -->
-<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/build/highlight.min.js"></script>
+  <!-- highlight.js full build -->
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/build/highlight.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github.min.css">
 
   <style>
@@ -27,95 +27,101 @@
   <div id="content">loading…</div>
 
 <script>
-/* ---------------------------------------
-   markdown-it / highlight setup
----------------------------------------- */
-const md = window.markdownit({
-  html: true,
-  linkify: true,
-  typographer: true,
-  highlight: function(str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try { return hljs.highlight(str, { language: lang }).value; } catch (_) {}
+// wait until all scripts are loaded
+window.addEventListener("load", () => {
+
+  /* ---------------------------------------
+     markdown-it / highlight setup
+  ---------------------------------------- */
+  const md = window.markdownit({
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight: function(str, lang) {
+      try {
+        if (lang && hljs.getLanguage(lang)) {
+          return hljs.highlight(str, { language: lang }).value;
+        }
+      } catch (_) {}
+      // fallback for unsupported languages
+      return md.utils.escapeHtml(str);
     }
-    return md.utils.escapeHtml(str);
-  }
-});
-
-/* ---------------------------------------
-   directory tracking
----------------------------------------- */
-
-let currentDir = "";
-
-// get directory of a path (always ends with /)
-function getDir(path) {
-  if (!path.includes("/")) return "";
-  let dir = path.substring(0, path.lastIndexOf("/") + 1);
-  if (!dir.endsWith("/")) dir += "/";
-  return dir;
-}
-
-// resolve relative links (currentDir + link)
-function resolvePath(baseDir, link) {
-  if (link.startsWith("/")) return link.slice(1); // project absolute links
-
-  const parts = baseDir.split("/").filter(Boolean);
-  const linkParts = link.split("/");
-
-  for (const part of linkParts) {
-    if (part === ".") continue;
-    else if (part === "..") parts.pop();
-    else parts.push(part);
-  }
-
-  return parts.join("/");
-}
-
-/* ---------------------------------------
-   main loader
----------------------------------------- */
-function loadMD(path) {
-  console.log("Attempting to load:", path);
-  fetch(path)
-    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
-    .then(text => {
-      currentDir = getDir(path);
-      console.log("Loaded:", path, "| currentDir:", currentDir);
-
-      const raw = md.render(text);
-      const safe = DOMPurify.sanitize(raw);
-      document.getElementById("content").innerHTML = safe;
-      hookLinks();
-    })
-    .catch(err => {
-      console.error("Failed to load:", path, err);
-      document.getElementById("content").innerHTML = `<p>bro wtf, file missing</p>`;
-    });
-}
-
-/* ---------------------------------------
-   link handler
----------------------------------------- */
-function hookLinks() {
-  document.querySelectorAll("#content a").forEach(a => {
-    a.addEventListener("click", e => {
-      const href = a.getAttribute("href");
-      if (href && href.endsWith(".md")) {
-        e.preventDefault();
-        const resolved = resolvePath(currentDir, href);
-        console.log("Resolved link:", href, "→", resolved);
-        loadMD(resolved);
-      }
-    }, { once: true });
   });
-}
 
-/* ---------------------------------------
-   start file
----------------------------------------- */
-loadMD("Introduction.md"); // already in documentation folder
+  /* ---------------------------------------
+     directory tracking
+  ---------------------------------------- */
+  let currentDir = "";
 
+  // get directory of a path (always ends with /)
+  function getDir(path) {
+    if (!path.includes("/")) return "";
+    let dir = path.substring(0, path.lastIndexOf("/") + 1);
+    if (!dir.endsWith("/")) dir += "/";
+    return dir;
+  }
+
+  // resolve relative links (currentDir + link)
+  function resolvePath(baseDir, link) {
+    if (link.startsWith("/")) return link.slice(1); // project absolute links
+
+    const parts = baseDir.split("/").filter(Boolean);
+    const linkParts = link.split("/");
+
+    for (const part of linkParts) {
+      if (part === ".") continue;
+      else if (part === "..") parts.pop();
+      else parts.push(part);
+    }
+
+    return parts.join("/");
+  }
+
+  /* ---------------------------------------
+     main loader
+  ---------------------------------------- */
+  function loadMD(path) {
+    console.log("Attempting to load:", path);
+    fetch(path)
+      .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+      .then(text => {
+        currentDir = getDir(path);
+        console.log("Loaded:", path, "| currentDir:", currentDir);
+
+        const raw = md.render(text);
+        const safe = DOMPurify.sanitize(raw);
+        document.getElementById("content").innerHTML = safe;
+        hookLinks();
+      })
+      .catch(err => {
+        console.error("Failed to load:", path, err);
+        document.getElementById("content").innerHTML = `<p>bro wtf, file missing</p>`;
+      });
+  }
+
+  /* ---------------------------------------
+     link handler
+  ---------------------------------------- */
+  function hookLinks() {
+    document.querySelectorAll("#content a").forEach(a => {
+      a.addEventListener("click", e => {
+        const href = a.getAttribute("href");
+        if (href && href.endsWith(".md")) {
+          e.preventDefault();
+          const resolved = resolvePath(currentDir, href);
+          console.log("Resolved link:", href, "→", resolved);
+          loadMD(resolved);
+        }
+      }, { once: true });
+    });
+  }
+
+  /* ---------------------------------------
+     start file
+  ---------------------------------------- */
+  loadMD("Introduction.md");
+
+}); // end window load
 </script>
 </body>
 </html>
