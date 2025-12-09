@@ -50,4 +50,26 @@ This is legal:
 ```
 
 # Adding a race
-nothing yet
+a race in the JSON is a big object with multiple smaller objects for organization
+Their names are in the race object.
+
+## Images
+the portrait is the first thing in this object, what it does is set up the portrait, then there are the colony icons/symbols, aka there are workers, farmers
+and researchers and also the military units and special units, their names tell you what they are.
+
+## Diplomacy
+despite being in the images object due to a mistake, it is a distinct object. there are only 2 things in here, theme is the theme played during diplomacy and animation is the animation in the middle of diplomacy.
+
+## Names 
+Names are for Leaders, Ships and Home star system. 
+we have some handy placeholders, # is a random number, (#) is a random number converted to roman numerals and @ is a random latin/english letter.
+
+## Traits
+Traits are special bonuses and debuffs for a race, there is special for stuff like charismatic and creative
+debuffs and buffs for ship combat, colony stuff and monetary gain.
+
+## Personality
+Personality determine behavior, aggression determines whether a race will literally never declare war or declare war for no reason, expansive determines whether a species stays on it's homeworld for the entire game or tries to expand as quickly as possible
+
+## next
+(Learning to add buildings)[buildings.md]
