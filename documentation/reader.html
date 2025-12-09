@@ -21,6 +21,8 @@
       line-height: 1.6;
     }
     a { color: #4a74ff; }
+    pre { overflow-x: auto; }
+    img { max-width: 100%; }
   </style>
 </head>
 <body>
@@ -53,17 +55,23 @@ let currentDir = "";
 // return "docs/intro/" from "docs/intro/file.md"
 function getDir(path) {
   if (!path.includes("/")) return "";
-  return path.substring(0, path.lastIndexOf("/") + 1);
+  let dir = path.substring(0, path.lastIndexOf("/") + 1);
+  if (!dir.endsWith("/")) dir += "/";
+  return dir;
 }
 
-// resolve relative paths properly
-function resolvePath(baseDir, link) {
-  // absolute-style "/foo.md" → make it project-relative instead of domain-root
-  if (link.startsWith("/")) return link.slice(1);
+// get project base path dynamically (handles subpaths)
+const projectBase = location.pathname.replace(/[^\/]*$/, ""); // removes current file name
 
-  // let URL do the heavy lifting (../, ./, etc)
+// resolve relative paths properly, handles project subpath
+function resolvePath(baseDir, link) {
+  // absolute-style "/foo.md" → prepend projectBase
+  if (link.startsWith("/")) return projectBase + link.slice(1);
+
+  // relative paths ./file.md or ../file.md
   const url = new URL(link, "http://dummy/" + baseDir);
-  return url.pathname.slice(1);
+  const resolved = url.pathname.slice(1); // strip dummy domain
+  return projectBase + resolved;
 }
 
 /* ---------------------------------------
@@ -71,10 +79,15 @@ function resolvePath(baseDir, link) {
 ---------------------------------------- */
 
 function loadMD(path) {
+  console.log("Attempting to load:", path);
   fetch(path)
-    .then(r => r.text())
+    .then(r => {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.text();
+    })
     .then(text => {
       currentDir = getDir(path);
+      console.log("Loaded:", path, "| currentDir:", currentDir);
 
       const raw = md.render(text);
       const safe = DOMPurify.sanitize(raw);
@@ -83,6 +96,7 @@ function loadMD(path) {
       hookLinks();
     })
     .catch(err => {
+      console.error("Failed to load:", path, err);
       document.getElementById("content").innerHTML =
         `<p>bro wtf, file missing</p>`;
     });
@@ -101,18 +115,20 @@ function hookLinks() {
         e.preventDefault();
 
         const resolved = resolvePath(currentDir, href);
+        console.log("Resolved link:", href, "→", resolved);
         loadMD(resolved);
       }
-    }, { once: true }); // no more 50 damn listeners on the same links
+    }, { once: true });
   });
 }
 
 /* ---------------------------------------
    start file
 ---------------------------------------- */
-loadMD("Introduction.md");
+loadMD(projectBase + "Introduction.md");
 
 </script>
 
 </body>
 </html>
+
