@@ -12,6 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/languages/css.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/languages/html.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/github.min.css">
+
   <style>
     body {
       font-family: system-ui, sans-serif;
@@ -19,18 +20,6 @@
       margin: 2rem;
       line-height: 1.6;
     }
-    code {
-    font-family: Monaco, monospace;
-    font-size: $base-font-size;
-    line-height: 100%;
-    background-color: #eee;
-    padding: 0.2em;
-    letter-spacing: -0.05em;
-    word-break: normal;
-    /border-radius: 5px;/
-  }
-
-
     a { color: #4a74ff; }
   </style>
 </head>
@@ -38,9 +27,9 @@
   <div id="content">loading…</div>
 
 <script>
-/* -----------------------------
-   markdown-it + highlight.js
------------------------------- */
+/* ---------------------------------------
+   markdown-it / highlight setup
+---------------------------------------- */
 const md = window.markdownit({
   html: true,
   linkify: true,
@@ -48,32 +37,39 @@ const md = window.markdownit({
   highlight: function(str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
-        return hljs.highlight(str, { language: lang }).value; // only inner HTML
+        return hljs.highlight(str, { language: lang }).value;
       } catch (__) {}
     }
     return md.utils.escapeHtml(str);
   }
 });
 
-/* -----------------------------
-   folder tracking
------------------------------- */
+/* ---------------------------------------
+   directory tracking
+---------------------------------------- */
+
 let currentDir = "";
 
+// return "docs/intro/" from "docs/intro/file.md"
 function getDir(path) {
   if (!path.includes("/")) return "";
   return path.substring(0, path.lastIndexOf("/") + 1);
 }
 
+// resolve relative paths properly
 function resolvePath(baseDir, link) {
-  if (link.startsWith("/")) return link.slice(1); // absolute-like
-  const url = new URL(link, "http://dummy/" + baseDir); // resolve ../, ./ etc
+  // absolute-style "/foo.md" → make it project-relative instead of domain-root
+  if (link.startsWith("/")) return link.slice(1);
+
+  // let URL do the heavy lifting (../, ./, etc)
+  const url = new URL(link, "http://dummy/" + baseDir);
   return url.pathname.slice(1);
 }
 
-/* -----------------------------
-   load & render markdown
------------------------------- */
+/* ---------------------------------------
+   main loader
+---------------------------------------- */
+
 function loadMD(path) {
   fetch(path)
     .then(r => r.text())
@@ -82,39 +78,40 @@ function loadMD(path) {
 
       const raw = md.render(text);
       const safe = DOMPurify.sanitize(raw);
+
       document.getElementById("content").innerHTML = safe;
-
-      // add hljs class for GitHub theme
-      document.querySelectorAll("#content pre").forEach(pre => pre.classList.add("hljs"));
-      document.querySelectorAll("#content pre code").forEach(code => code.classList.add("codeblock"));
-
-      hookLinks(); // activate internal .md links
+      hookLinks();
     })
     .catch(err => {
-      document.getElementById("content").innerHTML = `<p>bro wtf, file missing</p>`;
+      document.getElementById("content").innerHTML =
+        `<p>bro wtf, file missing</p>`;
     });
 }
 
-/* -----------------------------
+/* ---------------------------------------
    link handler
------------------------------- */
+---------------------------------------- */
+
 function hookLinks() {
   document.querySelectorAll("#content a").forEach(a => {
     a.addEventListener("click", e => {
       const href = a.getAttribute("href");
+
       if (href && href.endsWith(".md")) {
         e.preventDefault();
+
         const resolved = resolvePath(currentDir, href);
         loadMD(resolved);
       }
-    }, { once: true }); // prevent duplicate listeners
+    }, { once: true }); // no more 50 damn listeners on the same links
   });
 }
 
-/* -----------------------------
-   start
------------------------------- */
+/* ---------------------------------------
+   start file
+---------------------------------------- */
 loadMD("Introduction.md");
+
 </script>
 
 </body>
