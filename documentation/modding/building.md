@@ -72,4 +72,4 @@ debuffs and buffs for ship combat, colony stuff and monetary gain.
 Personality determine behavior, aggression determines whether a race will literally never declare war or declare war for no reason, expansive determines whether a species stays on it's homeworld for the entire game or tries to expand as quickly as possible
 
 ## next
-(Learning to add buildings)[buildings.md]
+[Learning to add buildings](buildings.md)
